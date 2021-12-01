@@ -3,10 +3,11 @@
 #
 # NOTE: pull_request_target behaves the same as pull_request except it grants a
 # read/write token to workflows running on a pull request from a fork. While
-# this may seem unsafe, we are limiting the permissions of the Github token
-# below.
+# this may seem unsafe, the permissions for the token are limited below and
+# the permissions can not be changed without merging to master which is
+# protected by CODEOWNERS.
 name: Assign
-on: 
+on:
   pull_request_target:
     types: [assigned, opened, reopened, ready_for_review]
 
@@ -14,7 +15,7 @@ on:
 # that is required. In this case, the assign workflow only needs to be able
 # to update the assigned reviewers, so it needs write access to
 # "pull-requests", nothing else.
-permissions:  
+permissions:
     pull-requests: write
     actions: none
     checks: none
@@ -34,11 +35,11 @@ jobs:
       # Checkout master branch of Teleport repository. This is to prevent an
       # attacker from submitting their own review assignment logic.
       - name: Checkout master branch
-        uses: actions/checkout@v2    
+        uses: actions/checkout@v2
         with:
-          ref: master    
+          ref: master
       - name: Installing the latest version of Go.
         uses: actions/setup-go@v2
       # Run "assign" subcommand on bot.
-      - name: Assigning reviewers 
-        run: cd .github/workflows/robot && go run main.go -workflow=assign -token="${{ secrets.GITHUB_TOKEN }}" -reviewers="${{ secrets.REVIEWERS }}"
+      - name: Assigning reviewers
+        run: cd .github/workflows/robot && go run main.go -workflow=assign -token="${{ secrets.GITHUB_TOKEN }}" -reviewers="${{ secrets.reviewers }}"

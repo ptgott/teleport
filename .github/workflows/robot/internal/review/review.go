@@ -132,7 +132,7 @@ func (r *Assignments) Get(author string, docs bool, code bool) []string {
 		reviewers = append(reviewers, r.getDocsReviewers(author)...)
 	// Strange state, an empty commit? Return admin reviewers.
 	case !docs && !code:
-		reviewers = append(reviewers, r.getCodeReviewers(author)...)
+		reviewers = append(reviewers, r.getAdminReviewers(author)...)
 	}
 
 	return reviewers
@@ -294,8 +294,8 @@ func check(reviewers []string, reviews map[string]*github.Review) bool {
 
 func checkN(reviewers []string, reviews map[string]*github.Review) int {
 	var n int
-	for _, review := range reviews {
-		for _, reviewer := range reviewers {
+	for _, reviewer := range reviewers {
+		if review, ok := reviews[reviewer]; ok {
 			if review.State == approved && review.Author == reviewer {
 				n++
 			}

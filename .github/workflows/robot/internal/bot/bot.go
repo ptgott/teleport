@@ -35,8 +35,8 @@ type Config struct {
 	// Environment holds information about the workflow run event.
 	Environment *env.Environment
 
-	// Reviewer is used to get code and docs reviewers.
-	Reviewer *review.Assignments
+	// Review is used to get code and docs reviewers.
+	Review *review.Assignments
 }
 
 // CheckAndSetDefaults checks and sets defaults.
@@ -47,8 +47,8 @@ func (c *Config) CheckAndSetDefaults() error {
 	if c.Environment == nil {
 		return trace.BadParameter("missing parameter Environment")
 	}
-	if c.Reviewer == nil {
-		return trace.BadParameter("missing parameter Reviewer")
+	if c.Review == nil {
+		return trace.BadParameter("missing parameter Review")
 	}
 
 	return nil

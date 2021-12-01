@@ -35,7 +35,7 @@ func (b *Bot) Check(ctx context.Context) error {
 		return trace.Wrap(err)
 	}
 
-	if b.c.Reviewer.IsInternal(b.c.Environment.Author) {
+	if b.c.Review.IsInternal(b.c.Environment.Author) {
 		// Remove stale "Check" status badges inline for internal reviews.
 		err := b.dismiss(ctx,
 			b.c.Environment.Organization,
@@ -50,13 +50,13 @@ func (b *Bot) Check(ctx context.Context) error {
 			return trace.Wrap(err)
 		}
 
-		if err := b.c.Reviewer.CheckInternal(b.c.Environment.Author, reviews, docs, code); err != nil {
+		if err := b.c.Review.CheckInternal(b.c.Environment.Author, reviews, docs, code); err != nil {
 			return trace.Wrap(err)
 		}
 		return nil
 	}
 
-	if err := b.c.Reviewer.CheckExternal(b.c.Environment.Author, reviews); err != nil {
+	if err := b.c.Review.CheckExternal(b.c.Environment.Author, reviews); err != nil {
 		return trace.Wrap(err)
 	}
 	return nil

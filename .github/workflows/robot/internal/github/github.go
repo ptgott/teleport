@@ -111,7 +111,7 @@ func (c *client) ListReviews(ctx context.Context, organization string, repositor
 		}
 
 		for _, r := range page {
-			// Always pick up the last submitted review.
+			// Always pick up the last submitted review from each reviewer.
 			review, ok := reviews[r.GetUser().GetLogin()]
 			if ok {
 				if r.GetSubmittedAt().After(review.SubmittedAt) {

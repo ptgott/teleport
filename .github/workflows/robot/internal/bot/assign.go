@@ -52,5 +52,5 @@ func (b *Bot) getReviewers(ctx context.Context) ([]string, error) {
 		return nil, trace.Wrap(err)
 	}
 
-	return b.c.Reviewer.Get(b.c.Environment.Author, docs, code), nil
+	return b.c.Review.Get(b.c.Environment.Author, docs, code), nil
 }

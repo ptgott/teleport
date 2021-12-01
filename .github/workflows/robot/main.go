@@ -100,7 +100,7 @@ func createBot(ctx context.Context, token string, reviewers string) (*bot.Bot, e
 	b, err := bot.New(&bot.Config{
 		GitHub:      gh,
 		Environment: environment,
-		Reviewer:    reviewer,
+		Review:      reviewer,
 	})
 	if err != nil {
 		return nil, trace.Wrap(err)
