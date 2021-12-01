@@ -26,15 +26,16 @@ import (
 )
 
 // CryptoRandomHex returns a hex-encoded random string generated
-// with a crypto-strong pseudo-random generator. It will generate
-// l random bytes and return a string of length 2l. An error is
-// returned when fewer bytes were generated than l.
-func CryptoRandomHex(l int) (string, error) {
-	b := make([]byte, l)
-	if _, err := rand.Read(b); err != nil {
+// with a crypto-strong pseudo-random generator. The length parameter
+// controls how many random bytes are generated, and the returned
+// hex string will be twice the length. An error is returned when
+// fewer bytes were generated than length.
+func CryptoRandomHex(length int) (string, error) {
+	randomBytes := make([]byte, length)
+	if _, err := rand.Read(randomBytes); err != nil {
 		return "", trace.Wrap(err)
 	}
-	return hex.EncodeToString(b), nil
+	return hex.EncodeToString(randomBytes), nil
 }
 
 // RandomDuration returns a duration in a range [0, max)
